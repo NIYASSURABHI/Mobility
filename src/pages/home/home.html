@@ -1,18 +1,53 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
+    <button ion-button menuToggle color="dark">
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+
+    <ion-buttons end>
+        <button (click)="sort_notes()" ion-button icon-only>
+          <ion-icon name="funnel" color="dark"></ion-icon>
+        </button>
+    </ion-buttons>
+   
+    <ion-buttons end margin-right>
+        <button (click)="add_notes()" ion-button icon-only>
+          <ion-icon name="add" color="dark"></ion-icon>
+        </button>
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+ <ion-list >
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+    <ion-item-sliding *ngFor="let name of notes; let i=index">
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ion-item no-lines>
+   
+ 
+  <ion-card>
+    <ion-card-header>
+        {{name.title}}
+    </ion-card-header>
+
+    <ion-card-content>
+        {{name.description}}
+    </ion-card-content>
+  
+    <ion-card-header>
+        {{name.date | date:'medium'}}
+    </ion-card-header>
+  </ion-card>
+
+</ion-item>
+<ion-item-options>
+    <button danger (click)="removeItem(name)"><ion-icon name="trash"></ion-icon> Delete</button>
+  </ion-item-options>
+</ion-item-sliding>
+
+
+</ion-list>
 </ion-content>

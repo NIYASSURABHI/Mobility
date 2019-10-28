@@ -4,7 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { FormPage } from '../pages/form/form';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -16,13 +18,13 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(private sqlite: SQLite,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'Note', component: FormPage }
     ];
 
   }
@@ -31,6 +33,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.create_db();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
@@ -41,4 +44,18 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  create_db(){
+    this.sqlite.create({
+      name: 'ionicdb.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('CREATE TABLE IF NOT EXISTS notes(title TEXT,description TEXT, date TEXT)', [])
+      .then(res => console.log('Executed SQL'))
+      .catch(e => console.log(e));
+    });
+  
+  
+  }
+
 }
