@@ -35,7 +35,7 @@ export class FormPage {
   
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FormPage');
+    console.log('ionViewDidLoad FormPages');
   }
 
   cancel(){
